@@ -6,12 +6,13 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 const USERS_TABLE_HEADER_TITLES = ['Nombre', 'Apellido', 'Email'];
 
 export function UsersTable() {
-  const { isLoading, error, data } = useInfiniteQuery<UsersResponse>({
-    queryKey: ['users'],
-    queryFn: ({ pageParam }) => getUsers(pageParam as number),
-    getNextPageParam: (lastPage) => lastPage.page + 1,
-    initialPageParam: 1,
-  });
+  const { isLoading, error, data, fetchNextPage, fetchPreviousPage } =
+    useInfiniteQuery<UsersResponse>({
+      queryKey: ['users'],
+      queryFn: ({ pageParam }) => getUsers(pageParam as number),
+      getNextPageParam: (lastPage) => lastPage.page + 1,
+      initialPageParam: 1,
+    });
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
@@ -36,6 +37,9 @@ export function UsersTable() {
             </tr>
           ))}
       </tbody>
+
+      <button onClick={async () => await fetchPreviousPage()}>Anterior</button>
+      <button onClick={async () => await fetchNextPage()}>Siguiente</button>
     </table>
   );
 }
