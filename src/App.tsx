@@ -1,11 +1,11 @@
 import './App.css';
-import { Users } from './components/Users';
+import { UsersTable } from './components/UsersTable';
 
 function App() {
   return (
     <div>
       <h1>Vite + React</h1>
-      <Users />
+      <UsersTable />
     </div>
   );
 }
