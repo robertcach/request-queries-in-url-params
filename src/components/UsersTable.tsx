@@ -17,6 +17,8 @@ export function UsersTable() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
+  const lastPage = data?.pages[data.pages.length - 1];
+
   return (
     <table>
       <thead>
@@ -38,8 +40,18 @@ export function UsersTable() {
           ))}
       </tbody>
 
-      <button onClick={async () => await fetchPreviousPage()}>Anterior</button>
-      <button onClick={async () => await fetchNextPage()}>Siguiente</button>
+      <button
+        disabled={lastPage?.page === 1}
+        onClick={async () => await fetchPreviousPage()}
+      >
+        Anterior
+      </button>
+      <button
+        disabled={lastPage?.page === lastPage?.total_pages}
+        onClick={async () => await fetchNextPage()}
+      >
+        Siguiente
+      </button>
     </table>
   );
 }
